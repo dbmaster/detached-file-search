@@ -1,0 +1,13 @@
+<tools>
+    <tool id="detached-file-search" title="Detached file search" projectTypes="inventory">
+
+        <parameters>
+            <parameter name="p_servers"   title="Servers"   type="string" required="false" multiple="true"
+                       suggestion="project_connections" width="400" />
+
+            <parameter name="p_exclude_folders"  title="Exclude Folders"   type="text" required="false" width="50" />
+        </parameters>
+
+        <output  script="detached-file-search.groovy" type="html" />
+    </tool>
+</tools>
