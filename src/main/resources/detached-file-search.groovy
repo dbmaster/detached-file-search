@@ -56,7 +56,12 @@ if (p_servers!=null && p_servers.size()>0) {
     connections  = connectionSrv.getConnectionList()
 }
 
-def foldersToExclude = p_exclude_folders.split("\\r?\\n").collect { it.trim().toUpperCase() }
+def foldersToExclude
+if (p_exclude_folders!=null) {
+    foldersToExclude = p_exclude_folders.split("\\r?\\n").collect { it.trim().toUpperCase() }
+} else {
+    foldersToExclude = []
+}
    
 def processedHosts = []
 def namespace = "root\\cimv2"
