@@ -9,6 +9,36 @@ import groovy.sql.Sql
 import java.sql.Statement
 import java.sql.ResultSet
 
+
+public String toSize(Number bytes) {
+    def fileSizeUnits = [ "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" ]
+
+    if (bytes==null) {
+        return "---"
+    } else {
+        double bytes2 = bytes.doubleValue()
+        String sizeToReturn = ""
+        int index = 0
+        for(index = 0; index < fileSizeUnits.size(); index++) {
+            if(bytes2 < 1024) {
+                break
+            }
+            bytes2 = bytes2 / 1024
+        }
+        sizeToReturn = String.format('%1$,.2f', bytes2) + " " + fileSizeUnits[index]
+        return sizeToReturn
+    }
+}
+
+public String toDate(String dateIn) {
+    def parserIn =new java.text.SimpleDateFormat("yyyyMMddHHmmss")
+    def parserOut =new java.text.SimpleDateFormat("yyyy/MM/dd")
+    def date = parserIn.parse(dateIn.substring(0,16))
+    return parserOut.format(date)
+}
+    
+    
+
 def runQuery = { host, namespace, query, file2db, foldersToExclude ->
     logger.info("Querying \\\\${host}\\${namespace}")
     WMIQueryResult result = WMIQuery.execute(host, namespace, query)
@@ -25,7 +55,15 @@ def runQuery = { host, namespace, query, file2db, foldersToExclude ->
     }
     logger.debug("NameIndex = ${nameIndex}")
     println "</tr>"
-
+ /*   
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    
+    String text = date.toString(formatter);
+    LocalDate date = LocalDate.parse(text, formatter);
+    
+    // yyyymmddhhnnss.zzzzzzsUUU
+ */
+ 
     result.values.each { row ->
         def fileName = row[nameIndex].toUpperCase()
         def exlcude = foldersToExclude.find { it.length() > 0 && fileName.startsWith(it) }
@@ -37,9 +75,24 @@ def runQuery = { host, namespace, query, file2db, foldersToExclude ->
             } else {
                 print "<td>${dbName}</td>"        
             }
-            for (int i=0; i<row.length; i++) {
-                println "<td>${row[i]}</td>"
-            }
+            
+            def CreationDate = row[0]
+            def FileSize = new Long(row[1])
+            def LastAccessed = row[2]
+            def LastModified = row[3]
+            def Name = row[4]
+
+            //for (int i=0; i<row.length; i++) {
+              //  if (row[i]!=null) {
+                    // logger.debug("class for ${i}="+row[i].getClass().name);
+                //}
+                // println "<td>${row[i]}</td>"
+            //}
+            print "<td>${toDate(CreationDate)}</td>"
+            print "<td align=\"right\">${toSize(FileSize)}</td>"
+            print "<td>${toDate(LastAccessed)}</td>"
+            print "<td>${toDate(LastModified)}</td>"
+            print "<td>${Name}</td>"
             println "</tr>"
         } else {
             logger.debug("Excluding file ${fileName}")

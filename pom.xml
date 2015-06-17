@@ -6,7 +6,7 @@
     <artifactId>detached-file-search</artifactId>
     <name>Detached file search</name>
 
-    <version>0.0.1</version>
+    <version>0.0.9</version>
     <packaging>bundle</packaging>
 
     <parent>
