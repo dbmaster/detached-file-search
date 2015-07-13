@@ -6,7 +6,7 @@
     <artifactId>detached-file-search</artifactId>
     <name>Detached file search</name>
 
-    <version>0.0.9</version>
+    <version>0.1.0</version>
     <packaging>bundle</packaging>
 
     <parent>
@@ -27,7 +27,7 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Tags>inventory,sqlserver</Tags>
                         <Author>slava.christin</Author>
-                        <Import-Package>io.dbmaster.api;version="1.9.0",io.dbmaster.tools.wmi;version="0.3.0"</Import-Package>
+                        <Import-Package>io.dbmaster.api;version="1.9.0",io.dbmaster.tools.wmi;version="0.0.3"</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
