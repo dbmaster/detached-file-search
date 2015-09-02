@@ -31,10 +31,14 @@ public String toSize(Number bytes) {
 }
 
 public String toDate(String dateIn) {
-    def parserIn =new java.text.SimpleDateFormat("yyyyMMddHHmmss")
-    def parserOut =new java.text.SimpleDateFormat("yyyy/MM/dd")
-    def date = parserIn.parse(dateIn.substring(0,16))
-    return parserOut.format(date)
+    if (dateIn == null) {
+        return ""
+    } else {
+        def parserIn =new java.text.SimpleDateFormat("yyyyMMddHHmmss")
+        def parserOut =new java.text.SimpleDateFormat("yyyy/MM/dd")
+        def date = parserIn.parse(dateIn.substring(0,16))
+        return parserOut.format(date)
+    }
 }
     
     
